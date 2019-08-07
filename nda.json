@@ -1,0 +1,20 @@
+[
+  {
+    "header": "The parties are signing this agreement on the dates by their signatures.",
+    "term": "First Party",
+    "information": [
+      "date",
+      "email",
+      "address"
+    ]
+  },
+  {
+    "header": "The parties are signing this agreement on the dates by their signatures.",
+    "term": "Second Party",
+    "information": [
+      "date",
+      "email",
+      "address"
+    ]
+  }
+]
