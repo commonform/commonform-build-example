@@ -23,6 +23,8 @@ You will need _either_ [Make], [npm], and [unoconv] _or_ another system with [Do
 
 [`nda.title`](./nda.title) contains the title of the form.
 
+The build configuration will detect build forms from any files with these extensions.
+
 [`blanks.json`](./blanks.json) contains values to fill into the blanks of forms.
 
 
