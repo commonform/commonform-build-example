@@ -20,7 +20,7 @@ docx: $(addprefix build/,$(SOURCES:.md=.docx))
 pdf: $(addprefix build/,$(SOURCES:.md=.pdf))
 
 build/%.docx: build/%.form build/%.directions build/%.title build/%.blanks build/%.signatures styles.json | build $(DOCX)
-	$(DOCX) --title "$(shell cat $*.title)" --number outline --indent-margins --left-align-title --values build/$*.blanks --directions build/$*.directions --styles styles.json --signatures build/$*.signatures $< > $@
+	$(DOCX) --title "$(shell cat build/$*.title)" --number outline --indent-margins --left-align-title --values build/$*.blanks --directions build/$*.directions --styles styles.json --signatures build/$*.signatures $< > $@
 
 build/%.md: build/%.form build/%.directions build/%.title build/%.blanks | build $(COMMONMARK)
 	$(COMMONMARK) stringify --title "$(shell cat build/$*.title)" --values build/$*.blanks --directions build/$*.directions --ordered --ids < $< > $@
