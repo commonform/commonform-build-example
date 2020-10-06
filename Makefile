@@ -7,7 +7,7 @@ LINT=node_modules/.bin/commonform-lint
 TOOLS=$(COMMONMARK) $(CRITIQUE) $(DOCX) $(HTML) $(JSON) $(LINT)
 
 SOURCES=$(filter-out README.md,$(wildcard *.md))
-FORMS=$(addprefix build/,$(SOURCES:.md=.form.json))
+FORMS=$(addprefix build/,$(SOURCES:.md=.form))
 
 .PHONY: all markdown html docx pdf
 
@@ -19,23 +19,35 @@ html: $(addprefix build/,$(SOURCES:.md=.html))
 docx: $(addprefix build/,$(SOURCES:.md=.docx))
 pdf: $(addprefix build/,$(SOURCES:.md=.pdf))
 
-build/%.docx: build/%.form.json build/%.directions.json %.title blanks.json %.json styles.json | build $(DOCX)
-	$(DOCX) --title "$(shell cat $*.title)" --number outline --indent-margins --left-align-title --values blanks.json --directions build/$*.directions.json --styles styles.json --signatures $*.json $< > $@
+build/%.docx: build/%.form build/%.directions build/%.title build/%.blanks build/%.signatures styles.json | build $(DOCX)
+	$(DOCX) --title "$(shell cat $*.title)" --number outline --indent-margins --left-align-title --values build/$*.blanks --directions build/$*.directions --styles styles.json --signatures build/$*.signatures $< > $@
 
-build/%.md: build/%.form.json build/%.directions.json %.title blanks.json | build $(COMMONMARK)
-	$(COMMONMARK) stringify --title "$(shell cat $*.title)" --values blanks.json --directions build/$*.directions.json --ordered --ids < $< > $@
+build/%.md: build/%.form build/%.directions build/%.title build/%.blanks | build $(COMMONMARK)
+	$(COMMONMARK) stringify --title "$(shell cat build/$*.title)" --values build/$*.blanks --directions build/$*.directions --ordered --ids < $< > $@
 
-build/%.html: build/%.form.json build/%.directions.json %.title blanks.json | build $(COMMONMARK)
-	$(HTML) stringify --title "$(shell cat $*.title)" --values blanks.json --directions build/$*.directions.json --html5 --lists < $< > $@
+build/%.html: build/%.form build/%.directions build/%.title build/%.blanks | build $(COMMONMARK)
+	$(HTML) stringify --title "$(shell cat build/$*.title)" --values build/$*.blanks --directions build/$*.directions --html5 --lists < $< > $@
 
 %.pdf: %.docx
 	unoconv $<
 
-build/%.form.json: %.md | build $(CFCM)
-	$(COMMONMARK) parse --only form < $< > $@
+build/%.parsed: %.md | build $(CFCM)
+	$(COMMONMARK) parse < $< > $@
 
-build/%.directions.json: %.md | build $(CFCM)
-	$(COMMONMARK) parse --only directions < $< > $@
+build/%.form: build/%.parsed | build $(JSON)
+	$(JSON) form < $< > $@
+
+build/%.title: build/%.parsed | build $(JSON)
+	$(JSON) frontMatter.title < $< > $@
+
+build/%.directions: build/%.parsed | build $(JSON)
+	$(JSON) directions < $< > $@
+
+build/%.blanks: build/%.parsed | build $(JSON)
+	$(JSON) frontMatter.blanks < $< > $@
+
+build/%.signatures: build/%.parsed | build $(JSON)
+	$(JSON) frontMatter.signatures < $< > $@
 
 $(TOOLS):
 	npm ci

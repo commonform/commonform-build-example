@@ -1,3 +1,16 @@
+---
+title: Nondisclosure Agreement
+blanks:
+  Expiration Anniversary: first
+signatures:
+- header: The parties are signing this agreement on the dates by their signatures.
+  term: First Party
+  information: [date, email, address]
+- header: The parties are signing this agreement on the dates by their signatures.
+  term: Second Party
+  information: [date, email, address]
+---
+
 The parties agree:
 
 # Mutual Nondisclosure
@@ -164,7 +177,7 @@ No terms of this agreement prohibit either party from:
 
 ## Expiration
 
-This agreement will terminate automatically on the first anniversary of the date of this agreement.
+This agreement will terminate automatically on the `Expiration Anniversary` anniversary of the date of this agreement.
 
 ## Termination by Notice
 
