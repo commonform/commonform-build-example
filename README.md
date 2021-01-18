@@ -14,19 +14,13 @@ You will need _either_ [Make], [npm], and [unoconv] _or_ another system with [Do
 
 [Docker]: https://docker.com
 
+To build with locally installed tools, run `make`.  To build in a Docker container, run `make docker`.
 
 ## Source Files
 
 [`nda.md`](./nda.md) contains the text of the form in [Common Form Markdown format](https://type.commonform.org).
 
-[`nda.json`](./nda.json) contains data about signature pages in [Common Form's schema](https://www.npmjs.com/package/signature-page-schema).
-
-[`nda.title`](./nda.title) contains the title of the form.
-
-The build configuration will detect build forms from any files with these extensions.
-
-[`blanks.json`](./blanks.json) contains values to fill into the blanks of forms.
-
+The build configuration will detect and build forms from any files with the '.md` extension.
 
 ## Configuration Files
 
