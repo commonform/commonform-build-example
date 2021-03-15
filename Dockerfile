@@ -1,4 +1,4 @@
-FROM node:erbium-buster
+FROM node:fermium-buster
 
 # Accept EULA for Microsoft fonts
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
