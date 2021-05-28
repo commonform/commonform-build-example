@@ -29,7 +29,7 @@ build/%.html: build/%.form build/%.directions build/%.title build/%.edition buil
 	$(HTML) stringify --title "$(shell cat build/$*.title)" --edition "$(shell cat build/$*.edition)" --values build/$*.blanks --directions build/$*.directions --html5 --lists < $< > $@
 
 %.pdf: %.docx
-	unoconv $<
+	soffice --headless --convert-to pdf --outdir build "$<"
 
 build/%.parsed: %.md | build $(CFCM)
 	$(COMMONMARK) parse < $< > $@
