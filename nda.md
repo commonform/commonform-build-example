@@ -10,6 +10,16 @@ signatures:
 - header: The parties are signing this agreement on the dates by their signatures.
   term: Second Party
   information: [date, email, address]
+styles:
+  alignment: left
+  heading:
+    italic: true
+  beforeDefinition: false
+  afterDefinition: false
+  reference:
+    italic: true
+  referenceHeading:
+    italic: true
 ---
 
 The parties agree:

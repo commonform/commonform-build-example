@@ -19,8 +19,8 @@ html: $(addprefix build/,$(SOURCES:.md=.html))
 docx: $(addprefix build/,$(SOURCES:.md=.docx))
 pdf: $(addprefix build/,$(SOURCES:.md=.pdf))
 
-build/%.docx: build/%.form build/%.directions build/%.title build/%.edition build/%.blanks build/%.signatures styles.json | build $(DOCX)
-	$(DOCX) --title "$(shell cat build/$*.title)" --edition "$(shell cat build/$*.edition)" --number outline --indent-margins --left-align-title --values build/$*.blanks --directions build/$*.directions --styles styles.json --signatures build/$*.signatures $< > $@
+build/%.docx: build/%.form build/%.directions build/%.title build/%.edition build/%.blanks build/%.signatures build/%.styles | build $(DOCX)
+	$(DOCX) --title "$(shell cat build/$*.title)" --edition "$(shell cat build/$*.edition)" --number outline --indent-margins --left-align-title --values build/$*.blanks --directions build/$*.directions --styles build/$*.styles --signatures build/$*.signatures $< > $@
 
 build/%.md: build/%.form build/%.directions build/%.title build/%.edition build/%.blanks | build $(COMMONMARK)
 	$(COMMONMARK) stringify --title "$(shell cat build/$*.title)" --edition "$(shell cat build/$*.edition)" --values build/$*.blanks --directions build/$*.directions --ordered --ids < $< > $@
@@ -48,6 +48,9 @@ build/%.directions: build/%.parsed | build $(JSON)
 
 build/%.blanks: build/%.parsed | build $(JSON)
 	$(JSON) frontMatter.blanks < $< > $@
+
+build/%.styles: build/%.parsed | build $(JSON)
+	$(JSON) frontMatter.styles < $< > $@
 
 build/%.signatures: build/%.parsed | build $(JSON)
 	$(JSON) frontMatter.signatures < $< > $@
